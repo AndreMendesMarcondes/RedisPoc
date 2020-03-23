@@ -16,6 +16,7 @@ namespace Redis.Repository
         }
         public async Task<String> Jutsu()
         {
+            return $"{DateTime.Now} - RASENGAN!!!"; 
             var returnFromRepository = String.Empty;
             var dataCache = await _cache.GetStringAsync(KEY_NARUTO);
 

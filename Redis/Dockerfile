@@ -5,16 +5,15 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS build
 WORKDIR /src
-COPY ["Redis/Redis.csproj", "Redis/"]
-RUN dotnet restore "Redis/Redis.csproj"
+COPY ["Redis.csproj", "./"]
+RUN dotnet restore "./Redis.csproj"
 COPY . .
-WORKDIR "/src/Redis"
-RUN dotnet build "Redis.csproj" -c Release -o /app/build
+RUN dotnet build "Redis.csproj" -c Release -o /app
 
 FROM build AS publish
-RUN dotnet publish "Redis.csproj" -c Release -o /app/publish
+RUN dotnet publish "Redis.csproj" -c Release -o /app
 
 FROM base AS final
 WORKDIR /app
-COPY --from=publish /app/publish .
+COPY --from=publish /app .
 ENTRYPOINT ["dotnet", "Redis.dll"]

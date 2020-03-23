@@ -1,0 +1,15 @@
+﻿version: "3"
+
+services:
+  web:
+    restart: always
+    image: hello-aspnetcore:v1
+    build: 
+      context: .
+    ports:
+      - "20000:80"
+    networks:
+      - marvel-network
+networks: 
+    marvel-network:
+        driver: bridge
