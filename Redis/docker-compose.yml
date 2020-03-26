@@ -3,13 +3,25 @@
 services:
   web:
     restart: always
-    image: hello-aspnetcore:v1
+    image: poc-redis:latest
     build: 
       context: .
+      dockerfile: Dockerfile
     ports:
       - "20000:80"
     networks:
-      - marvel-network
+      - redis-network
+    depends_on:
+      - "redisdb"
+
+
+  redisdb:
+    image: redis:alpine
+    ports:
+      - "16379:6379"
+    networks:
+      - redis-network
+
 networks: 
-    marvel-network:
+    redis-network:
         driver: bridge
